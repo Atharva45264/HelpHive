@@ -15,6 +15,7 @@ function Home() {
       <FeaturesSection />
       <HowItWorks />
       <Dashboard />
+      <About />
       <Footer />
     </>
   );

@@ -1,5 +1,6 @@
 // Navbar.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
@@ -7,10 +8,10 @@ function Navbar() {
       <h1 className="text-2xl font-bold text-indigo-600">HelpHive</h1>
 
       <div className="flex items-center space-x-4">
-        <a href="#howitworks" className="text-gray-700 hover:text-indigo-500">How It Works</a>
-        <a href="#features" className="text-gray-700 hover:text-indigo-500">Features</a>
-        <a href="#about" className="text-gray-700 hover:text-indigo-500">About</a>
-        <a href="#contact" className="text-gray-700 hover:text-indigo-500">Contact</a>
+        <Link to="#howitworks" className="text-gray-700 hover:text-indigo-500">How It Works</Link>
+        <Link to="#features" className="text-gray-700 hover:text-indigo-500">Features</Link>
+        <Link to="/about" className="text-gray-700 hover:text-indigo-500">About</Link>
+        <Link to="/contact" className="text-gray-700 hover:text-indigo-500">Contact</Link>
       </div>
     </nav>
   );
