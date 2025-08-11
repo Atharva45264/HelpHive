@@ -1,116 +1,90 @@
-// Dashboard.jsx
+// src/pages/Dashboard.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { MapPin, Users, Star, Bell } from "lucide-react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import Navbar from "../components/TopNavbar";
+import Sidebar from "../components/Sidebar";
+import RightSidebar from "../components/RightSidebar";
 
+// Dashboard Page
 export default function Dashboard() {
   return (
-    <div className="bg-gradient-to-b from-purple-50 to-white min-h-screen text-gray-900" style={{ paddingTop: "80px" }}>
-      {/* Header */}
-      <motion.header
-        className="bg-purple-600 shadow-md p-6 flex justify-between items-center"
-        initial={{ y: -60, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-      >
-        <h1 className="text-2xl font-extrabold text-white tracking-wide">
-          HelpHive Dashboard
-        </h1>
-      </motion.header>
+    <div className="h-screen flex flex-col bg-gray-100">
+      {/* Top Navbar */}
+      <Navbar />
 
-      {/* Hero Section */}
-      <motion.section
-        className="text-center py-12 px-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-      >
-        <h2 className="text-4xl font-bold text-purple-600 mb-4">
-          Welcome to HelpHive 🐝
-        </h2>
-        <p className="text-lg max-w-3xl mx-auto text-gray-700">
-          Connecting people who need help with those willing to offer it, right in your local community.
-          Post requests, volunteer your skills, and build a culture of kindness.
-        </p>
-      </motion.section>
+      {/* Main Layout */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left Sidebar */}
+        <Sidebar />
 
-      {/* Features Section */}
-      <motion.section
-        className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 px-8 py-12"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.2 },
-          },
-        }}
-      >
-        <FeatureCard
-          icon={<MapPin size={40} className="text-purple-500" />}
-          title="Location-Based Matching"
-          desc="Find and connect with nearby helpers or requesters using geolocation and pin-code filters."
-        />
-        <FeatureCard
-          icon={<Users size={40} className="text-purple-500" />}
-          title="Post or Offer Help"
-          desc="Easily post your request or offer your skills by specifying category, urgency, and availability."
-        />
-        <FeatureCard
-          icon={<Star size={40} className="text-purple-500" />}
-          title="Trust & Reputation"
-          desc="Ratings, reviews, and verification badges to ensure safety and trust in the community."
-        />
-        <FeatureCard
-          icon={<Bell size={40} className="text-purple-500" />}
-          title="Real-Time Alerts & Chat"
-          desc="Instant notifications and in-app chat to coordinate help faster and more efficiently."
-        />
-      </motion.section>
+        {/* Main Content */}
+        <motion.main
+          className="flex-1 p-6 overflow-y-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Header */}
+          <motion.h1
+            className="text-3xl font-bold mb-6 bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent"
+            initial={{ y: -40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            Dashboard Overview
+          </motion.h1>
 
-      {/* Mission Section */}
-      <motion.section
-        className="bg-purple-100 py-12 px-8 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <h3 className="text-3xl font-bold text-purple-700 mb-4">
-          Our Mission
-        </h3>
-        <p className="max-w-3xl mx-auto text-gray-800">
-          We aim to empower local communities by creating a centralized, transparent, and easy-to-use platform that brings neighbors together for mutual aid.
-          HelpHive is more than a platform — it's a movement towards kindness, collaboration, and trust.
-        </p>
-      </motion.section>
+          {/* Cards View */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {["Active Requests", "Completed Tasks", "New Messages"].map(
+              (title, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  className="bg-white rounded-2xl shadow-lg p-6 text-center border border-gray-200"
+                >
+                  <h2 className="text-xl font-semibold mb-2">{title}</h2>
+                  <p className="text-3xl font-bold text-indigo-600">
+                    {Math.floor(Math.random() * 100)}
+                  </p>
+                </motion.div>
+              )
+            )}
+          </div>
 
-      {/* Call to Action */}
-      <motion.section
-        className="text-center py-12"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7 }}
-      >
-        <h4 className="text-2xl font-bold text-purple-600 mb-4">
-          Ready to make a difference?
-        </h4>
-        <button className="bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-purple-700 transition">
-          Post a Request / Offer Help
-        </button>
-      </motion.section>
+          {/* Map View */}
+          <motion.div
+            className="mt-10 bg-white shadow-xl rounded-2xl p-4 border border-gray-200"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-2xl font-semibold mb-4">📍 Map View</h2>
+            <MapContainer
+              center={[19.076, 72.8777]} // Mumbai coords
+              zoom={10}
+              style={{ height: "400px", borderRadius: "12px" }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+              />
+              <Marker position={[19.076, 72.8777]}>
+                <Popup>Mumbai - Example Location</Popup>
+              </Marker>
+            </MapContainer>
+          </motion.div>
+        </motion.main>
+
+        {/* Right Sidebar */}
+        <RightSidebar />
+      </div>
     </div>
-  );
-}
-
-function FeatureCard({ icon, title, desc }) {
-  return (
-    <motion.div
-      className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition transform hover:-translate-y-1"
-      whileHover={{ scale: 1.05 }}
-    >
-      <div className="mb-4 flex justify-center">{icon}</div>
-      <h4 className="font-bold text-lg mb-2">{title}</h4>
-      <p className="text-gray-600">{desc}</p>
-    </motion.div>
   );
 }

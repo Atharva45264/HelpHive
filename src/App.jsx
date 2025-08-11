@@ -12,7 +12,6 @@ import Dashboard from './components/DashBoard';
 function App() {
   return (
     <>
-      <Navbar />
       <Routes>
         <Route path="/" element={
           <>
